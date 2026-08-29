@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
 const connectDatabase = require("./config/database");
+const workoutRoutes = require("./routes/workoutRoutes");
 
 const app = express();
 
@@ -36,6 +37,9 @@ app.get("/health", (req, res) => {
         status: "healthy"
     });
 });
+
+// Workout routes
+app.use("/workouts", workoutRoutes);
 
 // Start server
 const startServer = async () => {
