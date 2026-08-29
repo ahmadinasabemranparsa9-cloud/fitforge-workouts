@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const connectDatabase = require("./config/database");
 const workoutRoutes = require("./routes/workoutRoutes");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
@@ -40,6 +41,9 @@ app.get("/health", (req, res) => {
 
 // Workout routes
 app.use("/workouts", workoutRoutes);
+
+// Error handler
+app.use(errorHandler);
 
 // Start server
 const startServer = async () => {
