@@ -4,6 +4,8 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 require("dotenv").config();
 
+const connectDatabase = require("./config/database");
+
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -36,6 +38,12 @@ app.get("/health", (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`FitForge Workouts Service running on port ${PORT}`);
-});
+const startServer = async () => {
+    await connectDatabase();
+
+    app.listen(PORT, () => {
+        console.log(`FitForge Workouts Service running on ${PORT}`);
+    });
+};
+
+startServer();
