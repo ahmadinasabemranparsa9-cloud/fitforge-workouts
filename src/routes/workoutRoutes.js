@@ -16,9 +16,9 @@ router.post("/", validateWorkout, createWorkout);
 
 router.get("/", getWorkouts);
 
-router.get("/:workoutId", getWorkoutById);
+router.get("/:workoutId", validateWorkout, getWorkoutById);
 
-router.put("/:workoutId", updateWorkout);
+router.put("/:workoutId", validateWorkout, updateWorkout);
 
 router.delete("/:workoutId", deleteWorkout);
 
