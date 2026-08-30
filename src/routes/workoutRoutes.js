@@ -8,9 +8,11 @@ const {
     deleteWorkout,
 } = require("../handlers/workoutHandler");
 
+const validateWorkout = require("../middleware/validateWorkout");
+
 const router = express.Router();
 
-router.post("/", createWorkout);
+router.post("/", validateWorkout, createWorkout);
 
 router.get("/", getWorkouts);
 
