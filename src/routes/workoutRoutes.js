@@ -3,23 +3,24 @@ const express = require("express");
 const {
     createWorkout,
     getWorkoutById,
-    getWorkouts,
+    getWorkout,
     updateWorkout,
     deleteWorkout,
 } = require("../handlers/workoutHandler");
 
 const validateWorkout = require("../middleware/validateWorkout");
+const validateWorkoutId = require("../middleware/validateWorkoutId");
 
 const router = express.Router();
 
+router.get("/", getWorkout);
+
 router.post("/", validateWorkout, createWorkout);
 
-router.get("/", getWorkouts);
+router.get("/:id", validateWorkoutId, getWorkoutById);
 
-router.get("/:workoutId", validateWorkout, getWorkoutById);
+router.put("/:id", validateWorkoutId, validateWorkout, updateWorkout);
 
-router.put("/:workoutId", validateWorkout, updateWorkout);
-
-router.delete("/:workoutId", deleteWorkout);
+router.delete("/:id", validateWorkoutId, deleteWorkout);
 
 module.exports = router;

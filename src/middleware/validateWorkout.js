@@ -1,5 +1,11 @@
 const validateWorkout = (req, res, next) => {
-    const { title, difficulty, category, durationMinutes, exercises } = req.body;
+    const {
+        title,
+        difficulty,
+        category,
+        durationMinutes,
+        exercises
+    } = req.body || {};
 
     const errors = {};
 
@@ -8,43 +14,37 @@ const validateWorkout = (req, res, next) => {
     }
 
     if (
-        difficulty !== undefined &&
+        difficulty &&
         !["beginner", "intermediate", "advanced"].includes(difficulty)
     ) {
         errors.difficulty = "Invalid difficulty";
     }
 
     if (
-        category !== undefined &&
-        ![
-            "strength",
-            "cardio",
-            "flexibility",
-            "mobility",
-            "full_body",
-            "upper_body",
-            "lower_body",
-            "other",
-        ].includes(category)
+        category &&
+        typeof category !== "string"
     ) {
         errors.category = "Invalid category";
     }
 
     if (
         durationMinutes !== undefined &&
-        (!Number.isInteger(durationMinutes) || durationMinutes < 1)
+        (!Number.isInteger(durationMinutes) || durationMinutes <= 0)
     ) {
         errors.durationMinutes = "Duration must be a positive integer";
     }
 
-    if (exercises !== undefined && !Array.isArray(exercises)) {
+    if (
+        exercises !== undefined &&
+        !Array.isArray(exercises)
+    ) {
         errors.exercises = "Exercises must be an array";
     }
 
     if (Object.keys(errors).length > 0) {
         return res.status(400).json({
             message: "Invalid workout data",
-            errors,
+            errors
         });
     }
 

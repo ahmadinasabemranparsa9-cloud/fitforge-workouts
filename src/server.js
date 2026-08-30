@@ -47,11 +47,16 @@ app.use(errorHandler);
 
 // Start server
 const startServer = async () => {
-    await connectDatabase();
+    try {
+        await connectDatabase();
 
-    app.listen(PORT, () => {
-        console.log(`FitForge Workouts Service running on ${PORT}`);
-    });
+        app.listen(PORT, () => {
+            console.log(`FitForge Workouts Service running on ${PORT}`);
+        });
+    } catch (error) {
+        console.error("Failed to start FitForge Workouts Service:", error);
+        process.exit(1);
+    }
 };
 
 startServer();
